@@ -1,0 +1,14 @@
+categories:
+  GedankenfolgerPowermailRedirect:
+    label: 'Gedankenfolger Powermail Redirect'
+  GedankenfolgerPowermailRedirect.debug:
+    label: 'Debug'
+    parent: GedankenfolgerPowermailRedirect
+
+settings:
+  powermailRedirect.debugLog:
+    label: 'Enable debug logging'
+    description: 'Writes step-by-step debug output to var/log/powermail_redirect_debug.log'
+    type: bool
+    default: false
+    category: GedankenfolgerPowermailRedirect.debug

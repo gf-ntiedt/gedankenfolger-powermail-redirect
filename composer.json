@@ -1,0 +1,21 @@
+{
+    "name": "gedankenfolger/gedankenfolger-powermail-redirect",
+    "description": "Powermail finisher to redirect to a target page and transfer field values",
+    "type": "typo3-cms-extension",
+    "license": "GPL-2.0-or-later",
+    "version": "13.0.0",
+    "require": {
+        "typo3/cms-core": "^13.0",
+        "in2code/powermail": "^13.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gedankenfolger\\GedankenfolgerPowermailRedirect\\": "Classes/"
+        }
+    },
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "gedankenfolger_powermail_redirect"
+        }
+    }
+}

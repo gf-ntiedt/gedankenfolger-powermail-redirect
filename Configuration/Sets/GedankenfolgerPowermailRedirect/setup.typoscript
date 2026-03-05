@@ -1,0 +1,7 @@
+plugin.tx_powermail.settings.setup {
+    finishers {
+        200 {
+            class = Gedankenfolger\GedankenfolgerPowermailRedirect\Finisher\RedirectToFormFinisher
+        }
+    }
+}
