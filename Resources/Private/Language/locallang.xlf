@@ -14,8 +14,8 @@
             <trans-unit id="flexform.sheet.sRedirect">
                 <source>Redirect Finisher</source>
             </trans-unit>
-            <trans-unit id="flexform.redirectPageUid">
-                <source>Redirect target page</source>
+            <trans-unit id="flexform.redirectTarget">
+                <source>Redirect target</source>
             </trans-unit>
             <trans-unit id="flexform.transferFields">
                 <source>Fields to transfer</source>

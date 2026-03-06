@@ -17,9 +17,9 @@
                 <source>Redirect Finisher</source>
                 <target>Redirect Finisher</target>
             </trans-unit>
-            <trans-unit id="flexform.redirectPageUid">
-                <source>Redirect target page</source>
-                <target>Zielseite der Weiterleitung</target>
+            <trans-unit id="flexform.redirectTarget">
+                <source>Redirect target</source>
+                <target>Weiterleitungsziel</target>
             </trans-unit>
             <trans-unit id="flexform.transferFields">
                 <source>Fields to transfer</source>

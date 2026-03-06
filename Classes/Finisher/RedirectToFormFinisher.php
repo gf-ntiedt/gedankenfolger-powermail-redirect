@@ -15,9 +15,14 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * Powermail finisher that redirects to a configured target page after form submission.
  *
- * Reads the redirect target page and fields to transfer from the FlexForm
+ * Reads the redirect target and fields to transfer from the FlexForm
  * configured directly on the Powermail content element
  * (field: tx_gedankenfolger_powermailredirect_flexform).
+ *
+ * The redirect target is stored as a TYPO3 link string (e.g. "t3://page?uid=15"
+ * or "t3://page?uid=15#c42" when a content element is selected). This allows
+ * editors to link directly to a content element anchor without entering a
+ * manual anchor name.
  *
  * Selected field values are passed as GET parameters in the
  * tx_powermail_pi1[field] namespace so Powermail can prefill them
@@ -37,7 +42,7 @@ class RedirectToFormFinisher extends AbstractFinisher
      *
      * Exits early if:
      * - No FlexForm data is present on the content element
-     * - No redirect target page UID is configured
+     * - No redirect target is configured
      * - The generated URL does not belong to the current site (security check)
      *
      * Note: confirmationAction never invokes finishers, so no guard is needed.
@@ -68,11 +73,11 @@ class RedirectToFormFinisher extends AbstractFinisher
             return;
         }
 
-        // Exit early if no target page is configured
-        $targetPageUid = (int)($flexFormData['redirectPageUid'] ?? 0);
-        $log('targetPageUid: ' . $targetPageUid);
-        if ($targetPageUid === 0) {
-            $log('RETURN: targetPageUid is 0');
+        // Exit early if no redirect target is configured
+        $redirectTarget = trim((string)($flexFormData['redirectTarget'] ?? ''));
+        $log('redirectTarget: ' . $redirectTarget);
+        if ($redirectTarget === '') {
+            $log('RETURN: redirectTarget is empty');
             return;
         }
 
@@ -82,8 +87,10 @@ class RedirectToFormFinisher extends AbstractFinisher
         // Use the already-initialised ContentObjectRenderer from Powermail's controller.
         // A freshly created instance (makeInstance) has no frontend request context
         // and would cause typoLink_URL() to return an empty string.
+        // The redirectTarget is a TYPO3 link string resolved natively by typoLink_URL(),
+        // including content element fragments (e.g. "t3://page?uid=15#c42" → "/page#c42").
         $targetUrl = $this->contentObject->typoLink_URL([
-            'parameter'        => $targetPageUid,
+            'parameter'        => $redirectTarget,
             'additionalParams' => $additionalParams,
             'forceAbsoluteUrl' => true,
         ]);

@@ -7,33 +7,22 @@
                 <type>array</type>
                 <el>
 
-                    <redirectPageUid>
-                        <label>LLL:EXT:gedankenfolger_powermail_redirect/Resources/Private/Language/locallang.xlf:flexform.redirectPageUid</label>
+                    <redirectTarget>
+                        <label>LLL:EXT:gedankenfolger_powermail_redirect/Resources/Private/Language/locallang.xlf:flexform.redirectTarget</label>
                         <config>
-                            <type>group</type>
-                            <allowed>pages</allowed>
-                            <size>1</size>
-                            <maxitems>1</maxitems>
-                            <minitems>0</minitems>
+                            <type>link</type>
+                            <allowedTypes>
+                                <numIndex index="0">page</numIndex>
+                            </allowedTypes>
                         </config>
-                    </redirectPageUid>
+                    </redirectTarget>
 
                     <transferFields>
                         <label>LLL:EXT:gedankenfolger_powermail_redirect/Resources/Private/Language/locallang.xlf:flexform.transferFields</label>
                         <config>
                             <type>select</type>
                             <renderType>selectMultipleSideBySide</renderType>
-                            <foreign_table>tx_powermail_domain_model_field</foreign_table>
-                            <foreign_table_where>
-                                AND {#tx_powermail_domain_model_field}.deleted = 0
-                                AND {#tx_powermail_domain_model_field}.hidden = 0
-                                AND {#tx_powermail_domain_model_field}.type != 'submit'
-                            </foreign_table_where>
-                            <fieldWizard>
-                                <recordsOverview>
-                                    <disabled>1</disabled>
-                                </recordsOverview>
-                            </fieldWizard>
+                            <itemsProcFunc>Gedankenfolger\GedankenfolgerPowermailRedirect\Form\TransferFieldsItemsProcFunc->getItems</itemsProcFunc>
                             <size>8</size>
                             <maxitems>20</maxitems>
                         </config>

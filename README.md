@@ -1,6 +1,6 @@
 <h1>TYPO3 Extension Gedankenfolger Powermail Redirect<br/>(gedankenfolger-powermail-redirect)</h1>
 <p>
-    Powermail finisher for <a href="https://github.com/in2code-de/powermail" target="_blank">in2code/powermail</a> that redirects the user to a configurable target page after form submission, optionally passing selected field values as prefill GET parameters.
+    Powermail finisher for <a href="https://github.com/in2code-de/powermail" target="_blank">in2code/powermail</a> that redirects the user to a configurable target after form submission, optionally passing selected field values as prefill GET parameters.
 </p>
 <p>
     First of all many thanks to the whole TYPO3 community, all supporters of TYPO3.
@@ -24,19 +24,25 @@
 <h3 id="features">Features</h3>
 <ol>
     <li>
-        Redirect to any TYPO3 page after Powermail form submission — configured per content element, no TypoScript per form needed
+        Redirect to any internal TYPO3 page or directly to a content element anchor after form submission — configured per content element via the standard TYPO3 link wizard, no TypoScript per form needed
+    </li>
+    <li>
+        Content element anchor support — select a content element in the link wizard to redirect directly to <code>#c{uid}</code> without entering a manual anchor name
     </li>
     <li>
         Field value transfer — select which form fields to pass as GET parameters in the <code>tx_powermail_pi1[field]</code> namespace so Powermail can prefill them on the target page
     </li>
     <li>
-        FlexForm configuration tab — target page and field selection are added as a dedicated <strong>"Redirect Finisher"</strong> tab directly on the Powermail content element
+        Smart field list — the "Fields to transfer" selector is automatically filtered to only show fields from the Powermail form selected on the same content element
+    </li>
+    <li>
+        FlexForm configuration tab — redirect target and field selection are added as a dedicated <strong>"Redirect Finisher"</strong> tab directly on the Powermail content element
     </li>
     <li>
         TYPO3 v13 Site Set — finisher registration via <code>Configuration/Sets/</code>; simply add the set as a site dependency, no manual TypoScript setup required
     </li>
     <li>
-        Open-redirect protection — redirect URLs are validated against <code>TYPO3_SITE_URL</code> before the redirect fires
+        Open-redirect protection — redirect URLs are validated against <code>TYPO3_SITE_URL</code> before the redirect fires; the link field is restricted to internal pages only
     </li>
     <li>
         Parameter injection protection — field marker names are validated against <code>[a-zA-Z0-9_]</code>; all values are <code>rawurlencode()</code>-escaped
@@ -82,18 +88,21 @@
         Navigate to the <strong>"Redirect Finisher"</strong> tab (added automatically to every Powermail CE after installation).
     </li>
     <li>
-        Select the <strong>redirect target page</strong> via the page browser.
+        Set the <strong>redirect target</strong> using the link wizard:
+        <ul>
+            <li>Select a <strong>page</strong> to redirect to the top of that page.</li>
+            <li>Expand a page and select a <strong>content element</strong> to redirect directly to that element's anchor (<code>#c{uid}</code>).</li>
+        </ul>
     </li>
     <li>
-        Select the <strong>fields to transfer</strong> from the multiselect list. Only non-submit Powermail fields are listed.
-        <br/><em>Note: The list shows fields from all Powermail forms, not just the current one. Select only fields that exist in this form.</em>
+        Select the <strong>fields to transfer</strong> from the multiselect list. The list is automatically filtered to show only fields from the Powermail form configured on this content element.
     </li>
     <li>
         Save – the redirect is active immediately.
     </li>
 </ol>
 <p>
-    If the redirect target page is left empty, the finisher exits silently and Powermail continues its normal flow (e.g. showing a thank-you message).
+    If the redirect target is left empty, the finisher exits silently and Powermail continues its normal flow (e.g. showing a thank-you message).
 </p>
 
 <h3 id="prefill">Prefill on Target Page</h3>
@@ -135,9 +144,11 @@
 <h3 id="security">Security</h3>
 <ul>
     <li><strong>Open-redirect protection</strong>: The generated target URL is checked against <code>TYPO3_SITE_URL</code> before the redirect is issued. External redirect targets are silently ignored.</li>
+    <li><strong>Link field restriction</strong>: The redirect target field uses <code>allowedTypes=[page]</code>, restricting the link wizard to internal pages and content elements only.</li>
     <li><strong>Parameter injection protection</strong>: Field marker names are validated against <code>/^[a-zA-Z0-9_]+$/</code>. Markers not matching this pattern are skipped entirely.</li>
     <li><strong>Value encoding</strong>: All transferred values are encoded with <code>rawurlencode()</code> before being appended to the URL.</li>
     <li><strong>cHash</strong>: The target URL is generated via <code>typoLink_URL()</code> which automatically computes a valid <code>cHash</code>.</li>
+    <li><strong>DB queries</strong>: All parameters in the field list query are bound via <code>createNamedParameter()</code> — no SQL injection possible.</li>
 </ul>
 
 <h3 id="notes">Notes</h3>
@@ -149,7 +160,7 @@
         <strong>Double Opt-In</strong> (<code>settings.flexform.main.optin</code>): The redirect fires immediately after <code>createAction</code>, before the opt-in link is clicked. This is intentional: the user is forwarded to a pre-filled follow-up form while the opt-in e-mail runs in parallel.
     </li>
     <li>
-        <strong>Field list scope</strong>: The "Fields to transfer" multiselect lists all Powermail fields across all forms, not only the fields of the currently configured form. Editors must manually select the correct fields for their form.
+        <strong>Field list update</strong>: The "Fields to transfer" list is filtered to the selected Powermail form and computed when the backend edit form loads. If the Powermail form is changed in the same edit session, reload the page to refresh the field list. Previously selected fields from another form will appear as unknown values and must be re-selected.
     </li>
     <li>
         <strong>Site Set dependency</strong>: The finisher TypoScript is only active for sites that include <code>gedankenfolger/gedankenfolger-powermail-redirect</code> in their <code>config.yaml</code> dependencies. Forms on other sites are unaffected.
