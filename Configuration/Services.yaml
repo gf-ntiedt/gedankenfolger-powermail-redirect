@@ -1,0 +1,17 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Gedankenfolger\GedankenfolgerPowermailRedirect\:
+    resource: '../Classes/'
+    exclude:
+      - '../Classes/Finisher/'
+      - '../Classes/Form/'
+
+  Gedankenfolger\GedankenfolgerPowermailRedirect\EventListener\CreateActionBeforeRenderViewListener:
+    tags:
+      - name: event.listener
+        identifier: 'gedankenfolger-powermail-redirect/createActionBeforeRenderView'
+        event: In2code\Powermail\Events\FormControllerCreateActionBeforeRenderViewEvent
