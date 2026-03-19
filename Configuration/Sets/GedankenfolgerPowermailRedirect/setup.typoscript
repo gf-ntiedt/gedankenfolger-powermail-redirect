@@ -1,6 +1,9 @@
+# The redirect is handled primarily by the PSR-14 event listener
+# (CreateActionBeforeRenderViewListener) which fires before any Powermail
+# system finisher. This TypoScript registration serves as a safety net only.
 plugin.tx_powermail.settings.setup {
     finishers {
-        200 {
+        1 {
             class = Gedankenfolger\GedankenfolgerPowermailRedirect\Finisher\RedirectToFormFinisher
         }
     }
