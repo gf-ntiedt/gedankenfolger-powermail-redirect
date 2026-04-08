@@ -31,5 +31,34 @@
                 </el>
             </ROOT>
         </sRedirect>
+        <sCleverReach>
+            <ROOT>
+                <sheetTitle>LLL:EXT:gedankenfolger_powermail_redirect/Resources/Private/Language/locallang.xlf:flexform.sheet.sCleverReach</sheetTitle>
+                <type>array</type>
+                <el>
+
+                    <cleverreachEnabled>
+                        <label>LLL:EXT:gedankenfolger_powermail_redirect/Resources/Private/Language/locallang.xlf:flexform.cleverreach.enabled</label>
+                        <config>
+                            <type>check</type>
+                            <items>
+                                <numIndex index="0">
+                                    <label>LLL:EXT:gedankenfolger_powermail_redirect/Resources/Private/Language/locallang.xlf:flexform.cleverreach.enabled.check</label>
+                                </numIndex>
+                            </items>
+                        </config>
+                    </cleverreachEnabled>
+
+                    <cleverreachTargetUrl>
+                        <label>LLL:EXT:gedankenfolger_powermail_redirect/Resources/Private/Language/locallang.xlf:flexform.cleverreach.targetUrl</label>
+                        <config>
+                            <type>input</type>
+                            <eval>trim</eval>
+                        </config>
+                    </cleverreachTargetUrl>
+
+                </el>
+            </ROOT>
+        </sCleverReach>
     </sheets>
 </T3DataStructure>
