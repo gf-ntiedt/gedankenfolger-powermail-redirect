@@ -15,3 +15,9 @@ services:
       - name: event.listener
         identifier: 'gedankenfolger-powermail-redirect/createActionBeforeRenderView'
         event: In2code\Powermail\Events\FormControllerCreateActionBeforeRenderViewEvent
+
+  Gedankenfolger\GedankenfolgerPowermailRedirect\EventListener\SuppressPowermailMailsWhenCleverReachActiveListener:
+    tags:
+      - name: event.listener
+        identifier: 'gedankenfolger-powermail-redirect/suppressMailsWhenCleverReachActive'
+        event: In2code\Powermail\Events\SendMailServicePrepareAndSendEvent
