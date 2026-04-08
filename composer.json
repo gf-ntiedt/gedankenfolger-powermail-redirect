@@ -3,7 +3,7 @@
     "description": "Powermail finisher to redirect to a target page and transfer field values",
     "type": "typo3-cms-extension",
     "license": "GPL-2.0-or-later",
-    "version": "13.1.1",
+    "version": "13.2.0",
     "require": {
         "typo3/cms-core": "^13.0",
         "in2code/powermail": "^13.0"
