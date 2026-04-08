@@ -51,7 +51,7 @@
         Controllable debug logging — step-by-step log output to <code>var/log/powermail_redirect_debug.log</code>, switchable via Site Set setting without touching code
     </li>
     <li>
-        Early redirect via PSR-14 event listener — the redirect fires at the very beginning of <code>createAction</code>, before Powermail saves data, sends emails, or triggers opt-in. No side effects when a redirect target is configured.
+        Compatible with Double Opt-In — redirect fires immediately after <code>createAction</code> so the user is forwarded to a pre-filled follow-up form while the opt-in e-mail runs in parallel
     </li>
 </ol>
 
@@ -127,7 +127,7 @@
 
 <h3 id="debug">Debug Logging</h3>
 <p>
-    Debug logging writes a step-by-step trace of every redirect invocation to <code>var/log/powermail_redirect_debug.log</code>.
+    Debug logging writes a step-by-step trace of every finisher invocation to <code>var/log/powermail_redirect_debug.log</code>.
     It is <strong>disabled by default</strong> and can be toggled without any code change.
 </p>
 <p>Enable via the TYPO3 backend:</p>
@@ -154,10 +154,10 @@
 <h3 id="notes">Notes</h3>
 <ul>
     <li>
-        <strong>Exclusive redirect</strong>: When a redirect target is configured, a PSR-14 event listener intercepts the request at the very beginning of <code>createAction</code> — before Powermail saves data, sends emails, or triggers opt-in. No data is stored, no emails are sent, and no opt-in is triggered. Only the redirect happens. If no redirect target is configured, Powermail's normal processing runs unchanged.
+        <strong>Confirmation page</strong> (<code>settings.flexform.main.confirmation</code>): Powermail's <code>confirmationAction</code> does not invoke finishers. The redirect fires after the user submits the confirmation — no special configuration needed.
     </li>
     <li>
-        <strong>Confirmation page</strong> (<code>settings.flexform.main.confirmation</code>): Powermail's confirmation page shows an intermediate preview before finishers are called. If enabled, the user must click through the confirmation step first. The redirect then fires correctly during <code>confirmationAction</code>, still before any email finisher.
+        <strong>Double Opt-In</strong> (<code>settings.flexform.main.optin</code>): The redirect fires immediately after <code>createAction</code>, before the opt-in link is clicked. This is intentional: the user is forwarded to a pre-filled follow-up form while the opt-in e-mail runs in parallel.
     </li>
     <li>
         <strong>Field list update</strong>: The "Fields to transfer" list is filtered to the selected Powermail form and computed when the backend edit form loads. If the Powermail form is changed in the same edit session, reload the page to refresh the field list. Previously selected fields from another form will appear as unknown values and must be re-selected.
