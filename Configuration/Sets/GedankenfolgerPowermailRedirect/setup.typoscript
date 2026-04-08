@@ -1,10 +1,25 @@
-# The redirect is handled primarily by the PSR-14 event listener
-# (CreateActionBeforeRenderViewListener) which fires before any Powermail
-# system finisher. This TypoScript registration serves as a safety net only.
 plugin.tx_powermail.settings.setup {
     finishers {
-        1 {
+        50 {
+            class = Gedankenfolger\GedankenfolgerPowermailRedirect\Finisher\CleverReachFinisher
+        }
+        200 {
             class = Gedankenfolger\GedankenfolgerPowermailRedirect\Finisher\RedirectToFormFinisher
+        }
+    }
+
+    # CleverReach additional field mapping: Powermail marker = CleverReach field name
+    # CleverReach uses numeric IDs for custom fields (visible in the form's HTML source).
+    # The e-mail field always uses the name "email" and is handled separately via FlexForm.
+    cleverreach {
+        additionalFields {
+            # Powermail marker = CleverReach field name
+            # CleverReach uses "email" for the e-mail field and numeric IDs for custom fields
+            email    = email
+            anrede   = 1141024
+            vorname  = 1141026
+            nachname = 1141025
+            firma    = 1144834
         }
     }
 }
