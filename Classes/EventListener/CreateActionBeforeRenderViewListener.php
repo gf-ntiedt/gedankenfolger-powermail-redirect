@@ -79,6 +79,15 @@ final class CreateActionBeforeRenderViewListener
             ->convertFlexFormContentToArray($rawFlexForm);
         $log('flexFormData: ' . json_encode($flexFormData));
 
+        // If CleverReach is active, finishers handle the complete flow
+        // (CURL POST + DB save + emails + redirect via RedirectToFormFinisher).
+        // The EventListener must not intercept in this case.
+        $cleverreachEnabled = (int)($flexFormData['cleverreachEnabled'] ?? 0);
+        if ($cleverreachEnabled === 1) {
+            $log('RETURN: CleverReach enabled – finishers will handle redirect');
+            return;
+        }
+
         $redirectTarget = trim((string)($flexFormData['redirectTarget'] ?? ''));
         $log('redirectTarget: ' . $redirectTarget);
         if ($redirectTarget === '') {
