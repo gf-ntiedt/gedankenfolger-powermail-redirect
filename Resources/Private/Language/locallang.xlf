@@ -20,6 +20,21 @@
             <trans-unit id="flexform.transferFields">
                 <source>Fields to transfer</source>
             </trans-unit>
+            <trans-unit id="flexform.sheet.sCleverReach">
+                <source>CleverReach</source>
+            </trans-unit>
+            <trans-unit id="flexform.cleverreach.enabled">
+                <source>CleverReach newsletter registration</source>
+            </trans-unit>
+            <trans-unit id="flexform.cleverreach.enabled.check">
+                <source>Activate</source>
+            </trans-unit>
+            <trans-unit id="flexform.cleverreach.targetUrl">
+                <source>CleverReach form URL (e.g. https://eu2.cleverreach.com/f/123-456/wcs/)</source>
+            </trans-unit>
+            <trans-unit id="flexform.cleverreach.emailField">
+                <source>Field marker of the e-mail field in the Powermail form (default: email)</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>
